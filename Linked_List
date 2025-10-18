@@ -1,4 +1,4 @@
-头插法建立单链表
+//头插法建立单链表
 LinkList List_HeadInsert(LinkList &L) {  //逆向建立单链表
     LNode *s; int x;
     L=(LinkList)malloc(sizeof(LNode));  //创建头结点
@@ -14,7 +14,7 @@ LinkList List_HeadInsert(LinkList &L) {  //逆向建立单链表
     return L;
 }
 
-头插法建立单链表
+//尾插法建立单链表
 LinkList List_TailInsert(LinkList &L) {  //正向建立单链表
     int x;                              //设元素类型为整型
     L=(LinkList)malloc(sizeof(LNode));  //创建头结点
@@ -31,7 +31,7 @@ LinkList List_TailInsert(LinkList &L) {  //正向建立单链表
     return L;
 }
 
-单链表按序号查找结点
+//单链表按序号查找结点
 LNode *GetElem(LinkList L,int i){
     if(i<1) return NULL; //若i无效，则返回NULL
     int j=1; //计数，初始为1
@@ -41,4 +41,37 @@ LNode *GetElem(LinkList L,int i){
         j++;
     } 
     return p; //返回第i个结点的指针，若i大于表长，则返回NULL
+}
+
+//按值查找表节点
+LNode *LocateElem(LinkList L, ElemType e) {
+    LNode *p = L->next;
+    while (p != NULL && p->data != e)  // 从第1个结点开始查找data域为e的结点
+        p = p->next;
+    return p;                          // 找到后返回该结点指针，否则返回NULL
+}
+
+// 带头结点单链表删除元素e
+typedef struct LNode {
+    int data;           // 数据域（存储整数）
+    struct LNode *next; // 指针域（指向后继节点）
+} LNode, *LinkList;     // LNode为节点类型，LinkList为指针类型
+
+// 函数：删除单链表中值为e的节点（假定该节点一定存在）
+void Delete_e(LinkList L, int e) {
+    LNode *p = L->next; // p指向第一个数据节点
+    LNode *pre = L;     // pre指向头结点（前驱指针）
+    LNode *q;           // 暂存待删除节点
+
+    while (p != NULL) { // 遍历链表
+        if (p->data == e) { // 找到目标节点
+            q = p;          // 暂存待删除节点
+            p = p->next;    // p移动到下一个节点
+            pre->next = p;  // 前驱节点跳过待删除节点
+            free(q);        // 释放内存
+        } else { // 未找到，继续遍历
+            pre = p;        // 前驱指针跟随p移动
+            p = p->next;    // p向后移动
+        }
+    }
 }
