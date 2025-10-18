@@ -14,6 +14,7 @@ LinkList List_HeadInsert(LinkList &L) {  //逆向建立单链表
     return L;
 }
 
+
 //尾插法建立单链表
 LinkList List_TailInsert(LinkList &L) {  //正向建立单链表
     int x;                              //设元素类型为整型
