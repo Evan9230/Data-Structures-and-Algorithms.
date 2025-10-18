@@ -30,3 +30,15 @@ LinkList List_TailInsert(LinkList &L) {  //正向建立单链表
     r->next=NULL;                       //尾结点指针置空
     return L;
 }
+
+单链表按序号查找结点
+LNode *GetElem(LinkList L,int i){
+    if(i<1) return NULL; //若i无效，则返回NULL
+    int j=1; //计数，初始为1
+    LNode *p=L->next; //第1个结点指针赋给p
+    while(p!=NULL&&j<i){ //从第1个结点开始找，查找第i个结点
+        p=p->next;
+        j++;
+    } //注意：原图代码此处缺少循环体右大括号，这里已补全
+    return p; //返回第i个结点的指针，若i大于表长，则返回NULL
+}
