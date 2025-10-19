@@ -27,7 +27,7 @@ bool Push(SqStack &S, ElemType x)
     S.data[++S.top] = x return ture;
 }
 
-出栈操作
+//出栈操作
 bool Pop(SqStack &S, ElemType x)
 {
     if (S.top == -1) //栈空
@@ -35,7 +35,7 @@ bool Pop(SqStack &S, ElemType x)
     S.data[S.top--] = x return ture;
 }
 
-读栈顶
+//读栈顶
 bool GetTop(SqStack S, ElemType x)
 {
     if (S.top == -1)//栈空
