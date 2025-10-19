@@ -76,3 +76,21 @@ void Delete_e(LinkList L, int e) {
         }
     }
 }
+
+//插入节点（前插）
+p=GetElem(L,i-1); //查找插入位置的前驱结点
+s->next=p->next; //图2.7中操作步骤1
+p->next=s; //图2.7中操作步骤2
+
+//后插节点
+s->next=p->next; //修改指针域，不能颠倒
+p->next=s;
+temp=p->data; //交换数据域部分
+p->data=s->data;
+s->data=temp;
+
+//删除节点
+p=GetElem(L,i-1); //查找删除位置的前驱结点
+q=p->next; //令q指向被删除结点
+p->next=q->next; //将*q结点从链中"断开"
+free(q); //释放结点的存储空间
