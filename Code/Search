@@ -1,3 +1,13 @@
+// 构造二叉排序树的算法描述
+void Creat_BST(BiTree &T, KeyType str[], int n) {
+    T = NULL;          // 初始时T为空树
+    int i = 0;
+    while (i < n) {    // 依次将每个关键字插入到二叉排序树中
+        BST_Insert(T, str[i]);
+        i++;
+    }
+}
+
 
 // 二叉排序树查找（BST）非递归
 BSTNode *BST_Search(BiTree T, ElemType key) {
@@ -24,4 +34,20 @@ int BST_Insert(BiTree &T, KeyType k) {
         return BST_Insert(T->lchild, k);
     else                                         // 插入到T的右子树
         return BST_Insert(T->lchild, k);         // 注意：这里应该是 T->rchild, 原图可能有误
+}
+
+//折半查找（默认递增有序）
+int Binary_Search(SSTable L, ElemType key) {
+    int low = 0, high = L.TableLen - 1, mid;
+    
+    while (low <= high) {
+        mid = (low + high) / 2;        // 取中间位置
+        if (L.elem[mid] == key)
+            return mid;               // 查找成功则返回所在位置
+        else if (L.elem[mid] > key)
+            high = mid - 1;           // 从前半部分继续查找
+        else
+            low = mid + 1;            // 从后半部分继续查找
+    }
+    return -1;                        // 查找失败，返回-1
 }
