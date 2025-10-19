@@ -1,3 +1,11 @@
+#define MaxSize 50        //定义栈中元素的最大个数
+
+typedef struct {
+    Elemtype data[MaxSize];  //存放栈中元素
+    int top;                 //栈顶指针
+} SqStack;
+
+
 void InitStack(SqStack &S)
 {
     S.top = -1;
@@ -66,3 +74,22 @@ int Push(shareStack *ss,int num,int flag){
     }
     return 0;
 }
+
+//栈的链式存储类型
+typedef struct Linknode{
+    ElemType data;        //数据域
+    struct Linknode *next; //指针域
+} *LiStack;               //栈类型定义
+
+
+//队列顺序存储类型
+#define MaxSize 50
+typedef struct
+{
+    ElemType data[MaxSize];
+    int front, rear;
+} SqQueue;
+
+//普通队列队空&队满判断
+Q.front == Q.rear == 0 //判断队空
+Q.rear == MaxSize && Q.front == 0 //判断队满
