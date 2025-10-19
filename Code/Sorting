@@ -16,6 +16,33 @@ void BubbleSort(ElemType A[], int n) {
 }
 
 
+//划分Partition
+int Partition(ElemType A[], int low, int high) { // 一趟划分
+    ElemType pivot = A[low]; // 将当前表中第一个元素设为枢轴，对表进行划分
+    
+    while (low < high) { // 循环跳出条件
+        while (low < high && A[high] >= pivot) 
+            --high;
+        A[low] = A[high]; // 将比枢轴小的元素移动到左端
+        
+        while (low < high && A[low] <= pivot) 
+            ++low;
+        A[high] = A[low]; // 将比枢轴大的元素移动到右端
+    }
+    
+    A[low] = pivot; // 枢轴元素存放到最终位置
+    return low; // 返回存放枢轴的最终位置
+}
+
+//快速排序QuickSort
+void QuickSort(ElemType A[], int low, int high) {
+    if (low < high) { // 递归跳出的条件
+        // Partition()就是划分操作，将表A[low…high]划分为满足上述条件的两个子表
+        int pivotPos = Partition(A, low, high); // 划分
+        QuickSort(A, low, pivotPos - 1); // 依次对两个子表进行递归排序
+        QuickSort(A, pivotPos + 1, high);
+    }
+}
 
 
 //直接插入排序 
@@ -74,4 +101,91 @@ void ShellSort(ElemType A[], int n) {
             }//if
         }
     }
+}
+
+//简单选择排序
+void SelectSort(ElemType A[], int n) {
+    for (int i = 0; i < n - 1; i++) { // 一共进行n-1趟
+        int min = i;                  // 记录最小元素位置
+        
+        for (int j = i + 1; j < n; j++) { // 在A[i..n-1]中选择最小的元素
+            if (A[j] < A[min]) 
+                min = j;             // 更新最小元素位置
+        }
+        
+        if (min != i) 
+            swap(A[i], A[min]);     // 封装的swap()函数共移动元素3次
+    }
+}
+
+// 建立大根堆的算法
+void BuildMaxHeap(ElemType A[], int len) {
+    for (int i = len / 2; i > 0; i--) { // 从最后一个非终端节点开始调整
+        HeadAdjust(A, i, len);
+    }
+}
+
+//建立大根堆的算法
+void HeadAdjust(ElemType A[], int k, int len) {
+    // 函数HeadAdjust将元素k为根的子树进行调整
+    A[0] = A[k]; // A[0]暂存子树的根结点
+    
+    for (int i = 2 * k; i <= len; i *= 2) { // 沿key较大的子结点向下筛选
+        if (i < len && A[i] < A[i + 1]) {
+            i++; // 取key较大的子结点的下标
+        }
+        
+        if (A[0] >= A[i]) {
+            break; // 筛选结束
+        } else {
+            A[k] = A[i]; // 将A[i]调整到双亲结点上
+            k = i; // 修改k值，以便继续向下筛选
+        }
+    }
+    A[k] = A[0]; // 被筛选结点的值放入最终位置
+}
+
+// 堆排序算法
+void HeapSort(ElemType A[], int len) {
+    BuildMaxHeap(A, len);         // 初始建堆，将无序序列构建为大根堆
+
+    for (int i = len; i > 1; i--) {  // 进行n-1趟交换和调整过程
+        Swap(A[i], A[1]);          // 将堆顶元素（最大元）与堆底元素交换
+        HeadAdjust(A, 1, i - 1);   // 调整剩余i-1个元素，重新整理成堆
+    }
+}
+
+//归并排序的合并过程 (Merge Procedure of Merge Sort)
+// 1. 创建辅助数组B
+ElemType *B = (ElemType *)malloc((n+1)*sizeof(ElemType));
+
+void Merge(ElemType A[], int low, int mid, int high) {
+    // 2. 复制数据到辅助数组B
+    for(int k = low; k <= high; k++) {
+        B[k] = A[k];
+    }
+    
+    // 3. 合并两个有序子序列
+    int i = low, j = mid + 1, k = i;
+    while(i <= mid && j <= high) {
+        if(B[i] <= B[j]) {
+            A[k++] = B[i++];  // 取左半部分较小元素
+        } else {
+            A[k++] = B[j++];  // 取右半部分较小元素
+        }
+    }
+    
+    // 4. 处理剩余元素
+    while(i <= mid) A[k++] = B[i++];   // 左半部分剩余
+    while(j <= high) A[k++] = B[j++];  // 右半部分剩余
+}
+
+//归并排序（Merge Sort）​​的​​递归主函数​​
+void MergeSort(ElemType A[], int low, int high) {
+    if (low < high) {
+        int mid = (low + high) / 2;     // 从中间划分两个子序列
+        MergeSort(A, low, mid);         // 对左侧子序列进行递归排序
+        MergeSort(A, mid + 1, high);    // 对右侧子序列进行递归排序
+        Merge(A, low, mid, high);       // 归并
+    }//if
 }
