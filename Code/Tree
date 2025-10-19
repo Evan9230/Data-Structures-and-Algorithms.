@@ -1,0 +1,37 @@
+// 二叉树的链式存储结构
+typedef struct BiTNode {
+    ElemType data;                    // 数据域
+    struct BiTNode *lchild, *rchild;  // 左、右孩子指针
+} BiTNode, *BiTree;
+
+//先序遍历先序遍历 (PreOrder) 的操作过程如下。​​
+//若二叉树为空，则什么也不做；否则，
+//访问根结点；
+//先序遍历左子树；
+//先序遍历右子树。
+void PreOrder(BiTree T) {
+    if (T != NULL) {
+        visit(T);              // 访问根结点
+        PreOrder(T->lchild);   // 递归遍历左子树
+        PreOrder(T->rchild);   // 递归遍历右子树
+    }
+}
+
+
+//中序遍历
+void InOrder(BiTree T) {
+    if (T != NULL) {
+        InOrder(T->lchild);   // 递归遍历左子树
+        visit(T);             // 访问根结点
+        InOrder(T->rchild);   // 递归遍历右子树
+    }
+}
+
+//后序遍历
+void PostOrder(BiTree T) {
+    if (T != NULL) {
+        PostOrder(T->lchild);   // 递归遍历左子树
+        PostOrder(T->rchild);   // 递归遍历右子树
+        visit(T);              // 访问根结点
+    }
+}
