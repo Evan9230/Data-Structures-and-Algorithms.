@@ -1,11 +1,9 @@
+//栈定义类型&初始化
 #define MaxSize 50        //定义栈中元素的最大个数
-
 typedef struct {
     Elemtype data[MaxSize];  //存放栈中元素
     int top;                 //栈顶指针
 } SqStack;
-
-
 void InitStack(SqStack &S)
 {
     S.top = -1;
@@ -82,14 +80,103 @@ typedef struct Linknode{
 } *LiStack;               //栈类型定义
 
 
-//队列顺序存储类型
+//队列顺序存储类型&初始化
 #define MaxSize 50
 typedef struct
 {
     ElemType data[MaxSize];
     int front, rear;
 } SqQueue;
+void InitQueue(SqQueue &Q)
+{
+    Q.rear = Q.front = 0;
+}
+
+
 
 //普通队列队空&队满判断
 Q.front == Q.rear == 0 //判断队空
 Q.rear == MaxSize && Q.front == 0 //判断队满
+
+//循环队列入队
+bool EnEmpty(SqQueue &Q, ElemType x)
+{
+    if ((Q.rear + 1) % MaxSize == Q.front)
+        return false;
+    Q.data[Q.rear] = x;
+    Q.rear = (Q.rear + 1) % MaxSize;
+    return true;
+}
+
+//循环队列出队  
+bool DeEmpty(SqQueue &Q, ElemType &x)
+{
+    if (Q.rear == Q.front)
+        return false;
+    x = Q.data[Q.front];
+    Q.front = (Q.front + 1) % MaxSize;
+    return true;
+}
+
+//循环队列判断对空
+bool isEmpty(SqQueue Q)
+{
+    if (Q.rear == Q.front)
+        return true;
+    else
+        return false;
+}
+
+//循环队列
+Q.front == (Q.rear+1)%MaxSize //队满
+Q.front == Q.rear//队空
+(Q.rear - Q.front + MaxSize)%MaxSize //队列长度
+
+//队的链式存储（​​Linked Queue）
+typedef struct LinkNode
+{
+    ElemType data;
+    struct LinkNode *next;
+} LinkNode;
+typedef struct
+{
+    LinkNode *front, *rear;
+} LinkNode;
+void InitQueue(LinkQueue &Q)
+{
+    Q.front = Q.rear = (LinkNode *)malloc(sizeof(LinkNode));
+    Q.front->next = NULL;
+}
+//队空判断
+bool isEmpty(LinkQueue Q)
+{
+    if (Q.rear == Q.front)
+        return true;
+    else
+        return false;
+}
+
+//Enqueue operation
+bool EnEmpty(LinkQueue &Q, ElemType x)
+{
+    LinkNode *s = (LinkNode *)malloc(sizeof(LinkNode));
+    s->data = x;
+    s->next = NULL;
+    Q.rear->next = s;
+    Q.rear = s;
+}
+
+//Dequeue Operation
+bool DeEmpty(LinkQueue &Q, ElemType &x)
+{
+    if (Q.rear == Q.front)
+        return false;
+    LinkNode *p = Q.front->next;
+    x = p->data;
+    Q.front->next = p->next 
+    if (Q.rear == p)
+        Q.rear = Q.front;
+    free(p);
+    return true;
+}
+

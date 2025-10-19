@@ -77,7 +77,7 @@ void Delete_e(LinkList L, int e) {
     }
 }
 
-//插入节点（前插）
+// 插入节点（前插）
 p=GetElem(L,i-1); //查找插入位置的前驱结点
 s->next=p->next; //图2.7中操作步骤1
 p->next=s; //图2.7中操作步骤2
@@ -94,3 +94,21 @@ p=GetElem(L,i-1); //查找删除位置的前驱结点
 q=p->next; //令q指向被删除结点
 p->next=q->next; //将*q结点从链中"断开"
 free(q); //释放结点的存储空间
+
+
+//双链表
+typedef struct DNode{  //定义双链表结点类型
+    ElemType data;  //数据域
+    struct DNode *prior,*next;  //前驱和后继指针
+}DNode, *DLinklist;
+
+//双链表插入
+s->next=p->next;     //将结点*s插入到结点*p之后
+p->next->prior=s;
+s->prior=p;
+p->next=s;
+
+//双链表删除
+p->next=q->next;     //图2.11中步骤①
+q->next->prior=p;     //图2.11中步骤②
+free(q);             //释放结点空间
