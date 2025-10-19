@@ -124,8 +124,6 @@ void BuildMaxHeap(ElemType A[], int len) {
         HeadAdjust(A, i, len);
     }
 }
-
-//建立大根堆的算法
 void HeadAdjust(ElemType A[], int k, int len) {
     // 函数HeadAdjust将元素k为根的子树进行调整
     A[0] = A[k]; // A[0]暂存子树的根结点
